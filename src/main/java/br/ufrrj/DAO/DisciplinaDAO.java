@@ -37,7 +37,7 @@ public class DisciplinaDAO {
 				ps.setInt(3, 0);
 				ps.setString(4, d.getPeriodo());
 				ps.setInt(5, d.getCargaHoraria());
-				ps.setInt(6, 1);
+				ps.setInt(6, idDocente);
 	            
 	            ps.executeUpdate();
 	            
@@ -219,5 +219,7 @@ public class DisciplinaDAO {
 		return null;
 	     
     }
+    
+    
 }
 

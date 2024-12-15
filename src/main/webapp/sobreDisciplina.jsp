@@ -1,7 +1,3 @@
-<%@ page import="br.ufrrj.DAO.*" %>
-<%@ page import="br.ufrrj.model.*" %>
-<%@ page import="java.util.List" %>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,7 +9,7 @@
 <body>
   <header>
     <div class="nav">
-      <a href="#">InÃ­cio</a>
+      <a href="#">Início</a>
       <a href="#">Sair</a>
     </div>
   </header>
@@ -22,28 +18,14 @@
     <h1>Nome da Turma</h1>
     <section class="container">
       <section class="form">
-      <%
-      	List<Resultado> minhaLista = (List<Resultado>) request.getAttribute("lista");
-      	DiscenteDAO discenteDAO = new DiscenteDAO();
-
-      	if(minhaLista != null){
-      		for(Resultado r : minhaLista){
-      			Discente d = discenteDAO.buscarUDiscentePorId(r.getIdDiscente());
-      %>
-          <form action="atualizarResultado.do" class="renderizar " method="POST">
-            <p><%= d.getNome() %></p>
+          <form class="renderizar">
+            <p>Aluno</p>
             <div>
               <label for="">Nota: </label>
               <input type="text" name="nota">
-              <input type="hidden" name="idDisciplina" value="<%= r.getIdDisciplina() %>">
-              <input type="hidden" name="idDiscente" value="<%= r.getIdDiscente() %>">
               <button type="submit">Cadastrar Nota</button>
             </div>
           </form>
-        <%	
-        }
-      	} 
-      	%>
         <div class="buttons">
           <button type="reset" onclick="irParaPágina()">Retornar</button>
         </div>

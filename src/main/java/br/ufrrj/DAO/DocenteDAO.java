@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufrrj.connection.Conexao;
 import br.ufrrj.model.Docente;
 
 public class DocenteDAO {
@@ -152,13 +153,13 @@ public class DocenteDAO {
 	        }
     }
     
-    public void atualizarChefeDepartamento(int idDocente) throws ClassNotFoundException {
+    public void atualizarChefeDepartamento(String idDocente) throws ClassNotFoundException {
     	String sql = "UPDATE docente "+
     				"SET eh_chefe_de_departamento = ? "+
-    				"WHERE ID_Docente = ? and eh_coordenador = ?";
+    				"WHERE identificacao = ?";
     	
     	Connection conn = null;
-	     PreparedStatement ps = null;
+	    PreparedStatement ps = null;
 	     
 	     try {
 	            conn = obterConexao();
@@ -166,8 +167,7 @@ public class DocenteDAO {
 	            ps = conn.prepareStatement(sql);
 	            
 	            ps.setBoolean(1, true);
-				ps.setInt(2, idDocente);
-				ps.setBoolean(3, false);
+				ps.setString(2, idDocente);
 	            
 	            ps.executeUpdate();
 	            
@@ -243,4 +243,52 @@ public class DocenteDAO {
             }
         }
     }
+    
+	public Docente buscarDocentePorNome(String nome) throws ClassNotFoundException {
+		String sql = "SELECT * FROM Docente WHERE nome = ?";
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn = Conexao.obterConexao();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, nome);
+
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Docente docente = new Docente();
+				docente.setIdDocente(rs.getInt("ID_Docente"));
+				docente.setNome(rs.getString("nome"));
+				docente.setUsuario(rs.getString("usuario"));
+				docente.setSenha(rs.getString("senha"));
+				docente.setIdentificacao(rs.getString("identificacao"));
+				docente.setEhCoordenador(rs.getBoolean("eh_coordenador"));
+				docente.setEhChefeDeDepartamento(rs.getBoolean("eh_chefe_de_departamento"));
+				
+				System.out.println(docente.getIdDocente());
+				System.out.println(docente.getNome());
+
+				return docente;
+			}
+
+			return null; // Return null if no docente found
+
+		} catch (SQLException e) {
+			// Log the error
+			System.err.println("Erro ao buscar docente por nome: " + e.getMessage());
+			e.printStackTrace();
+			throw new ClassNotFoundException("Erro ao buscar docente", e);
+		} finally {
+			// Close resources
+			try {
+				if (rs != null) rs.close();
+				if (ps != null) ps.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

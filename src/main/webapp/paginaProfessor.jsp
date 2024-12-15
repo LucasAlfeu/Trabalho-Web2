@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<%@ page import="br.ufrrj.model.Docente" %>
+<%@ page import="br.ufrrj.model.*" %>
+<%@ page import="br.ufrrj.DAO.*" %>
+<%@ page import="java.util.List" %>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -24,10 +26,8 @@
     <div class="box">
         <h2><%= docente.getNome() %></h2>
         <div class="actions">
-            <% if(docente.isEhChefeDeDepartamento()) { %>
-            	<a href="./cadastrarTurma.jsp">Cadastrar</a>
-           <% } %>
-            <a href="./paginaPromocao.jsp">Promoção</a>
+            	<a href="./novaDisciplina.jsp">Cadastrar</a>
+            	<a href="./paginaPromocao.jsp">Promoção</a>
         </div>
     </div>
     <table>
@@ -38,12 +38,24 @@
         </tr>
       </thead>
       <tbody>
+      <%
+      	ResultadoDAO resDAO = new ResultadoDAO();
+      	DisciplinaDAO disDAO = new DisciplinaDAO();
+      	List<Resultado> minhaLista = resDAO.buscarTodosResultadoPorIdDiscente(docente.getIdDocente());
+      	if(minhaLista != null){
+      		for(Resultado r : minhaLista){
+      			Disciplina dis = disDAO.buscaDisciplinaPorId(r.getIdDisciplina());
+      	%>
         <tr>
-          <td>Nome da Disciplina</td>
+          <td><%= dis.getNomeDisciplina() %></td>
           <td class="actions">
-            <a href="./sobreTurma.jsp">Saiba Mais</a>
+            <a href="sobreTurma?id=<%= dis.getIdDisciplina() %>">Saiba Mais</a>
           </td>
         </tr>
+        <% 
+      		}
+      	}
+        %>
       </tbody>
     </table>
   </div>

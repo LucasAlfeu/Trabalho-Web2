@@ -161,6 +161,59 @@ public class ResultadoDAO {
 	     return null;
     }
     
+    public List<Resultado> buscarTodosResultadoPorIdDicplinsa(int idDisciplina) throws ClassNotFoundException{
+    	String sql = "SELECT * FROM resultado WHERE ID_Disciplina_ID_Disciplina = ?";
+    	
+    	Connection conn = null;
+	    PreparedStatement ps = null;
+	     
+	     try {
+	            conn = obterConexao();
+	            conn.setAutoCommit(false);
+	            ps = conn.prepareStatement(sql);
+	            
+	            ps.setInt(1, idDisciplina);
+	            
+	            List<Resultado> lista = new ArrayList<>();
+	            ResultSet rs = ps.executeQuery();
+	            
+	            while(rs.next()) {
+	            	Resultado r = new Resultado();
+	            	r.setIdDiscente(rs.getInt("ID_Resultado"));
+	            	r.setNota(rs.getFloat("nota"));
+	            	r.setStatus(rs.getString("aprovado"));
+	            	r.setIdDisciplina(rs.getInt("ID_Disciplina_ID_Disciplina"));
+	            	r.setIdDiscente(rs.getInt("ID_Discente_ID_Discente"));
+	            	
+	            	lista.add(r);
+	            }
+	            
+	            conn.commit();
+	            
+	            System.out.println("Todos resultados buscado com sucesso!");
+	            return lista;
+	            
+	        } catch (SQLException e) { 
+	            if (conn != null) {
+	                try {
+	                    System.err.println("Erro ao buscar resultados. Fazendo rollback...");
+	                    conn.rollback();
+	                } catch (SQLException ex) {
+	                    ex.printStackTrace();
+	                }
+	            }
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (ps != null) ps.close();
+	                if (conn != null) conn.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	     return null;
+    }
+    
     
 }
 

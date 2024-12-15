@@ -16,7 +16,7 @@
     <div class="header">
       <h1>Cadastrar Disciplina</h1>
     </div>
-    <form class="formulario">
+    <form action="cadastrarTurma.do" class="formulario" method="POST">
       <div class="form-group">
         <label for="name">Nome Disciplina:</label>
         <input type="text" id="name" name="nome" placeholder="Digite o nome da disciplina">
@@ -34,25 +34,8 @@
         <input type="number" id="periodo" name="periodo" placeholder="Digite o período da disciplina">
       </div>
        <div class="form-group">
-       <p>Escolha o docente</p>
-        <div>
-			<label for="docente">Docente:</label>
-        	<select id="docente" name="docente">
-       		<%
-       			List<Docente> lista = null;
-        		if(lista != null){
-        			for(Docente d : lista){
-        	%>
-        		<option><%= d.getNome() %></option>
-			<%
-        			}
-        		} else {
-			%>
-				<option>Nenhum docente cadastrado</option>
-			<% } %>
-        	</select>
-        	
-        </div>
+       		<label for="docente">Docente:</label>
+			<input type="text" id="docente" name="docente" placeholder="Digite o nome do docente">
       </div>
       <div class="buttons">
         <button type="button">Cancelar</button>

@@ -146,4 +146,55 @@ public class DiscenteDAO {
 	        }
 	        return null;
 	 }
+	
+	public Discente buscarUDiscentePorId(int id) throws ClassNotFoundException {
+		String sql = "SELECT * FROM discente WHERE ID_Discente = ?";
+		Connection conn = null;
+	     PreparedStatement ps = null;
+	        
+	        try {
+	            conn = obterConexao();
+	            conn.setAutoCommit(false);
+	            ps = conn.prepareStatement(sql);
+	            
+				ps.setInt(1, id);
+				ResultSet rs = ps.executeQuery();
+				Discente d = new Discente();
+				rs.next();
+				d.setIdDiscente(rs.getInt("ID_Discente"));
+				d.setNome(rs.getString("nome"));
+				d.setUsuario(rs.getString("usuario"));
+				d.setSenha(rs.getString("senha"));
+				d.setEmail(rs.getString("email"));
+				d.setMatricula(rs.getString("matricula"));
+
+				conn.commit();
+				System.out.println("Discente encontrado com sucesso!");
+				return d;            
+	             
+	        } catch (SQLException e) {
+	            if (conn != null) {
+	                try {
+	                    System.err.println("Erro ao salvar usuário. Fazendo rollback...");
+	                    conn.rollback();
+	                } catch (SQLException ex) {
+	                    ex.printStackTrace();
+	                    System.out.println("erro: "+ex.getMessage());
+	                }
+	                System.out.println("erro: "+e.getMessage());
+	            }
+	            
+	            
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (ps != null) ps.close();
+	                if (conn != null) conn.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	                System.out.println("erro: "+e.getMessage());
+	            }
+	        }
+	        return null;
+	 }
 }

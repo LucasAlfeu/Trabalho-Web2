@@ -10,17 +10,21 @@
 
     <div class="promotion-form">
         <h1>Promoção</h1>
-        <div class="form-group">
-          <label for="identification">Identificação:</label>
-          <input type="text" id="identification" class="form-control" placeholder="Digite a identificação">
-        </div>
-        <div class="form-actions">
-	        <form action="" method="">
+        	<form action="Coordenador" method="POST">
+        		<label for="identification">Identificação:</label>
+	        	<input type="text" name="coordenador" placeholder="Digite a identificação">
 	        	<input type="submit" class="btn btn-primary" value="Coordenador">
 	        </form>
-			<form action="" method="">
-	          <input type="submit" class="btn btn-primary" value="Chefe de Departamento">
+	        </br>
+	        </br>
+			<form action="Chefe" method="POST">
+				<label for="identification">Identificação:</label>
+				<input type="text" name="chefe" placeholder="Digite a identificação">
+	          <input type="submit" class="btn btn-primary" value="Chefe de Departamento" >
 	        </form>  
+	        </br>
+        <div class="form-actions">
+
 	          <button type="submit" class="btn btn-primary" onclick="irParaPagina()">Cancelar</button>
         </div>
       </div>
