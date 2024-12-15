@@ -26,7 +26,6 @@ public class CadastrarDisciplina extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // Listar docentes
             List<Docente> listaDocentes = docenteDAO.listarDocentes();
             request.setAttribute("listaDocentes", listaDocentes);
 

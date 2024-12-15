@@ -14,11 +14,9 @@
     <div class="box">
         <div class="section">
             <a href="./entrarAluno.jsp">Aluno</a>
-            <!-- Add student-related content here -->
           </div>
           <div class="section">
             <a  href="./entrarProfessor.jsp">Professor</a>
-            <!-- Add teacher-related content here -->
           </div>
     </div>
   </div>

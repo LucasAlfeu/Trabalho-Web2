@@ -10,13 +10,11 @@ import java.sql.SQLException;
 import br.ufrrj.connection.Conexao;
 import br.ufrrj.model.Discente;
 
-public class DiscenteDAO {	
-    // Configurações de conexão com o banco de dados
+public class DiscenteDAO {
     private static final String URL = "jdbc:mysql://localhost:3308/sistema_de_matricula";
     private static final String USUARIO = "root";
     private static final String SENHA = "root";
 
-    // Método para estabelecer conexão com o banco de dados
     private Connection obterConexao() throws SQLException, ClassNotFoundException {
     	Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(URL, USUARIO, SENHA);
@@ -28,32 +26,25 @@ public class DiscenteDAO {
 	     PreparedStatement ps = null;
 	        
 	        try {
-	            // Estabelece a conexão
 	            conn = obterConexao();
 	            
-	            // Desativa o autocommit para controle manual da transação
 	            conn.setAutoCommit(false);
 	            
-	            // Prepara o statement
 	            ps = conn.prepareStatement(sql);
 	            
-	            // Define os parâmetros
 	            ps.setString(1, d.getNome());
 				ps.setString(2, d.getUsuario());
 				ps.setString(3, d.getSenha());
 				ps.setString(4, d.getMatricula());
 				ps.setString(5, d.getEmail());
 	            
-	            // Executa a inserção
 	            ps.executeUpdate();
 	            
-	            // Confirma a transação
 	            conn.commit();
 	            
 	            System.out.println("Discente salvo com sucesso!");
 	            
 	        } catch (SQLException e) {
-	            // Em caso de erro, faz rollback
 	            if (conn != null) {
 	                try {
 	                    System.err.println("Erro ao salvar usuário. Fazendo rollback...");
@@ -63,10 +54,8 @@ public class DiscenteDAO {
 	                }
 	            }
 	            
-	            // Imprime o erro original
 	            e.printStackTrace();
 	        } finally {
-	            // Fecha os recursos
 	            try {
 	                if (ps != null) ps.close();
 	                if (conn != null) conn.close();

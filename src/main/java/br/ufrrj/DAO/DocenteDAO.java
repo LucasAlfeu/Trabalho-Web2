@@ -13,12 +13,10 @@ import br.ufrrj.model.Docente;
 
 public class DocenteDAO {
 	
-    // Configurações de conexão com o banco de dados
     private static final String URL = "jdbc:mysql://localhost:3308/sistema_de_matricula";
     private static final String USUARIO = "root";
     private static final String SENHA = "root";
 
-    // Método para estabelecer conexão com o banco de dados
     private Connection obterConexao() throws SQLException, ClassNotFoundException {
     	Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(URL, USUARIO, SENHA);
@@ -273,15 +271,13 @@ public class DocenteDAO {
 				return docente;
 			}
 
-			return null; // Return null if no docente found
+			return null;
 
 		} catch (SQLException e) {
-			// Log the error
 			System.err.println("Erro ao buscar docente por nome: " + e.getMessage());
 			e.printStackTrace();
 			throw new ClassNotFoundException("Erro ao buscar docente", e);
 		} finally {
-			// Close resources
 			try {
 				if (rs != null) rs.close();
 				if (ps != null) ps.close();
